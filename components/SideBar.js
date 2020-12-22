@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 import Filter from './Filter';
 
 const SideBar = ({
@@ -14,6 +15,7 @@ const SideBar = ({
         Object.keys(filters).map((filter) => {
           return (
             <Filter
+              key={uuid()}
               categoryName={filter}
               filters={filters[filter]}
               showModal={showModal}

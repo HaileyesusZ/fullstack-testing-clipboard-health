@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 
 const Filter = ({
   categoryName,
@@ -15,7 +16,7 @@ const Filter = ({
         filters.map((filter, index) => {
           if (index <= 9) {
             return (
-              <div className="mt-2">
+              <div key={uuid()} className="mt-2">
                 <span
                   role="button"
                   tabIndex={0}

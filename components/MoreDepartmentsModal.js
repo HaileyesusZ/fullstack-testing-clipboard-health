@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Filter from './Filter';
+import uuid from 'react-uuid';
 
 const MoreDepartmentsModal = ({ departments, setFilter, activeFilter }) => {
   return (
@@ -21,7 +21,10 @@ const MoreDepartmentsModal = ({ departments, setFilter, activeFilter }) => {
         {departments &&
           departments.map((department) => {
             return (
-              <div className="flex flex-grow-0 flex-shrink-0 w-1/4 items-center pr-6">
+              <div
+                key={uuid()}
+                className="flex flex-grow-0 flex-shrink-0 w-1/4 items-center pr-6"
+              >
                 <span
                   role="button"
                   tabIndex={0}

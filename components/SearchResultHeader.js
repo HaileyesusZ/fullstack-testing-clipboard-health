@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import uuid from 'react-uuid';
 
 const SearchResultHeader = ({ totalResults = 0, sortBy = {}, setSortBy }) => {
   const availableSorts = [
@@ -20,7 +21,7 @@ const SearchResultHeader = ({ totalResults = 0, sortBy = {}, setSortBy }) => {
           {availableSorts.map((availableSort) => {
             const sortName = availableSort.toLowerCase();
             return (
-              <li className="flex items-center cursor-pointer ">
+              <li key={uuid()} className="flex items-center cursor-pointer ">
                 <span>{availableSort}</span>
 
                 <svg

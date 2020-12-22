@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import uuid from 'react-uuid';
 import formatDate from '../utils/date';
 
 const SearchResultData = ({ results = [] }) => {
@@ -27,6 +28,7 @@ const SearchResultData = ({ results = [] }) => {
         results.map((result, index) => {
           return (
             <div
+              key={uuid()}
               className=" py-4 cursor-pointer focus:outline-none"
               role="button"
               tabIndex={0}
