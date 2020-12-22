@@ -44,11 +44,11 @@ const Home = ({ initialFilters = {}, initialResults = [] }) => {
     const data = { sortBy };
     if (filter) data.filter = filter;
     if (keyword) data.keyword = keyword;
-
     const result = await fetch(`${window.location.href}api/jobs`, {
       method: 'POST',
       body: JSON.stringify(data),
     });
+
     const resultsData = await result.json();
 
     const totalResultCount = resultsData.reduce((acc, item) => {
@@ -82,19 +82,25 @@ const Home = ({ initialFilters = {}, initialResults = [] }) => {
 
 const getServerSideProps = async (context) => {
   const { req } = context;
+  let initialFilters;
+  let initialResults;
+  try {
+    const [filterData, resultData] = await Promise.all([
+      fetch(`http://${req.headers.host}/api/filters`),
+      fetch(`http://${req.headers.host}/api/jobs`, {
+        method: 'POST',
+        body: JSON.stringify({}),
+      }),
+    ]);
 
-  const [filterData, resultData] = await Promise.all([
-    fetch(`http://${req.headers.host}/api/filters`),
-    fetch(`http://${req.headers.host}/api/jobs`, {
-      method: 'POST',
-      body: JSON.stringify({}),
-    }),
-  ]);
-
-  const [initialFilters, initialResults] = await Promise.all([
-    filterData.json(),
-    resultData.json(),
-  ]);
+    [initialFilters, initialResults] = await Promise.all([
+      filterData.json(),
+      resultData.json(),
+    ]);
+  } catch (error) {
+    initialFilters = {};
+    initialResults = [];
+  }
 
   return { props: { initialFilters, initialResults } };
 };

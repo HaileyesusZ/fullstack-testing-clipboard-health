@@ -5,9 +5,9 @@ describe('/api/jobs', () => {
   test('filters jobs based on keyword', async () => {
     const { req, res } = createMocks({
       method: 'POST',
-      body: {
+      body: JSON.stringify({
         keyword: 'Mammoth Hospital',
-      },
+      }),
     });
 
     await handleJobs(req, res);
@@ -21,9 +21,9 @@ describe('/api/jobs', () => {
   test('filters jobs based on filter', async () => {
     const { req, res } = createMocks({
       method: 'POST',
-      body: {
+      body: JSON.stringify({
         filter: 'Part-time',
-      },
+      }),
     });
 
     await handleJobs(req, res);

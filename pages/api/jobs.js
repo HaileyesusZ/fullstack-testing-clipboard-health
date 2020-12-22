@@ -140,16 +140,12 @@ export default async (req, res) => {
       // Use Mutex to handle synchronization of responses
       release = await mutex.acquire();
 
-      const { filter, sortBy, keyword } = req.body || {};
+      const { filter, sortBy = {}, keyword } = JSON.parse(req.body || {});
 
-      let searchKeyword = '';
-      if (keyword) {
-        searchKeyword = keyword.toLowerCase();
-      }
       // @todo: implement filters and search
       let matchingJobs = findMatchingJobs({
         filter,
-        keyword: searchKeyword,
+        keyword,
       });
       matchingJobs = sortJobs(matchingJobs, sortBy);
       // @todo: implement automated tests
