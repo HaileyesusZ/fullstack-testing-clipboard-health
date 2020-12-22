@@ -10,8 +10,9 @@
 
 ## Tips
 
-- Click active filter to remove it
-- Click active sort to remove sorting for the operation
+- Click on an active filter to remove it
+- Click on an active sort to remove sorting for the operation
+- Click a list again to collapse
 
 # fullstack-candidate-testing
 
