@@ -4,7 +4,7 @@
 - React Hooks
 - Tailwindcss
 - Eslint with prettier for linting and styling
-- Jest with node-mocks-http for test api
+- Jest with node-mocks-http for test api (to run test use `npm run test`)
 - async-mutex to handle synchronization of requests
 - deployed on vercel [here](https://fullstack-testing-clipboard-health-ceurvob2t.vercel.app/)
 
