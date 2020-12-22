@@ -140,7 +140,7 @@ export default async (req, res) => {
       // Use Mutex to handle synchronization of responses
       release = await mutex.acquire();
 
-      const { filter, sortBy, keyword } = JSON.parse(req.body || {});
+      const { filter, sortBy, keyword } = req.body || {};
 
       let searchKeyword = '';
       if (keyword) {

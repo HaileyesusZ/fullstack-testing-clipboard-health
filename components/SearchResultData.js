@@ -48,6 +48,7 @@ const SearchResultData = ({ results = [] }) => {
                 result.items.map((item, itemIndex) => {
                   return (
                     <div
+                      key={uuid()}
                       role="button"
                       tabIndex={0}
                       onKeyDown={(e) => handleActiveJobItem(e, itemIndex)}

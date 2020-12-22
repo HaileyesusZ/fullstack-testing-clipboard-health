@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "jest --watch"
+    "test": "jest pages/api/__tests__/"
   },
   "dependencies": {
     "async-mutex": "^0.2.6",

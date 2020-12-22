@@ -40,7 +40,7 @@ const Filter = ({
           }
           if (index === 10) {
             return (
-              <div className="mt-2">
+              <div key={uuid()} className="mt-2">
                 <span
                   role="button"
                   tabIndex={0}
@@ -69,8 +69,8 @@ Filter.propTypes = {
   categoryName: PropTypes.string.isRequired,
   filters: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      count: PropTypes.number.isRequired,
+      key: PropTypes.string.isRequired,
+      doc_count: PropTypes.number.isRequired,
     })
   ).isRequired,
   handleShowMore: PropTypes.func.isRequired,
