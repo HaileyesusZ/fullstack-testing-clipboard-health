@@ -8,6 +8,11 @@
 - async-mutex to handle synchronization of requests
 - deployed on vercel [here](https://fullstack-testing-clipboard-health-ceurvob2t.vercel.app/)
 
+## Tips
+
+- Click active filter to remove it
+- Click active sort to remove sorting for the operation
+
 # fullstack-candidate-testing
 
 ## Instructions
