@@ -5,6 +5,7 @@
 - Tailwindcss
 - Eslint with prettier for linting and styling
 - Jest with node-mocks-http for test api
+- async-mutex to handle synchronization of requests
 - deployed on vercel [here](https://fullstack-testing-clipboard-health-ceurvob2t.vercel.app/)
 
 # fullstack-candidate-testing
