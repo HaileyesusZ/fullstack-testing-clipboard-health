@@ -1,12 +1,27 @@
 import PropTypes from 'prop-types';
 import Filter from './Filter';
 
-const SideBar = ({ filters }) => {
+const SideBar = ({
+  filters,
+  showModal = false,
+  handleShowMore,
+  setFilter,
+  activeFilter,
+}) => {
   return (
     <div className="flex flex-col">
       {filters &&
         Object.keys(filters).map((filter) => {
-          return <Filter categoryName={filter} filters={filters[filter]} />;
+          return (
+            <Filter
+              categoryName={filter}
+              filters={filters[filter]}
+              showModal={showModal}
+              handleShowMore={handleShowMore}
+              setFilter={setFilter}
+              activeFilter={activeFilter}
+            />
+          );
         })}
     </div>
   );
@@ -21,5 +36,9 @@ SideBar.propTypes = {
       })
     )
   ).isRequired,
+  showModal: PropTypes.bool.isRequired,
+  handleShowMore: PropTypes.func.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  activeFilter: PropTypes.string.isRequired,
 };
 export default SideBar;

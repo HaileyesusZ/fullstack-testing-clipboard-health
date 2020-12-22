@@ -22,7 +22,7 @@ const SearchResultData = ({ results = [] }) => {
     }
   };
   return (
-    <div className="">
+    <div className="mt-8">
       {results &&
         results.map((result, index) => {
           return (
@@ -54,7 +54,7 @@ const SearchResultData = ({ results = [] }) => {
                     >
                       <div className="flex justify-between items-center ">
                         <div className="flex flex-col">
-                          <h3>{item.type}</h3>
+                          <h3>{item.job_title}</h3>
                           <span>
                             {item.job_type} | {item.salary_range[0]} -{' '}
                             {item.salary_range[1]} per hour | {item.address}

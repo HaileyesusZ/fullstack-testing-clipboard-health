@@ -19,20 +19,25 @@ const findMatchingJobs = ({ filter, keyword }) => {
 
     if (filter) {
       matchingItems = job.items.filter((item) => {
-        return item.job_type === filter;
+        return (
+          item.job_type === filter ||
+          item.work_schedule === filter ||
+          item.experience === filter ||
+          item.department.includes(filter)
+        );
       });
     }
     if (keyword) {
       keywordFound =
-        job.job_title.includes(keyword) ||
-        job.name.includes(keyword) ||
+        job.job_title.toLowerCase().includes(keyword) ||
+        job.name.toLowerCase().includes(keyword) ||
         job.items.some(
           (item) =>
             item.required_skills.includes(keyword) ||
-            item.type.includes(keyword) ||
-            item.job_title.includes(keyword) ||
+            item.type.toLowerCase().includes(keyword) ||
+            item.job_title.toLowerCase().includes(keyword) ||
             item.department.includes(keyword) ||
-            item.description.includes(keyword)
+            item.description.toLowerCase().includes(keyword)
         );
     }
 
@@ -66,28 +71,100 @@ const findMatchingJobs = ({ filter, keyword }) => {
   });
   return matchingJobs;
 };
+
+/**
+ * sorts jobs with the passed conditions
+ * @param {array} jobs jobs to sort
+ * @param {object} conditions sort conditions
+ * @returns {array} sorted jobs
+ */
+const sortJobs = (jobsToSort, conditions = {}) => {
+  const sortedJobs = [];
+
+  [...jobsToSort].forEach((job) => {
+    const sortedJob = { ...job };
+
+    const sortedItems = [...sortedJob.items].sort((previousItem, nextItem) => {
+      const locationSort = conditions.location === 'asc';
+      const roleSort = conditions.role === 'asc';
+      const departmentSort = conditions.department === 'asc';
+      const educationSort = conditions.education === 'asc';
+      const experienceSort = conditions.experience === 'asc';
+
+      try {
+        if (conditions.location) {
+          if (previousItem.location > nextItem.location)
+            return locationSort ? 1 : -1;
+          if (previousItem.location < nextItem.location)
+            return locationSort ? -1 : 1;
+        }
+
+        if (previousItem.job_title > nextItem.job_title)
+          return roleSort ? 1 : -1;
+        if (previousItem.job_title < nextItem.job_title)
+          return roleSort ? -1 : 1;
+
+        if (conditions.department) {
+          if (previousItem.department.length > nextItem.department.length)
+            return departmentSort ? 1 : -1;
+          if (previousItem.department.length < nextItem.department.length)
+            return departmentSort ? -1 : 1;
+        }
+        if (conditions.education) {
+          if (previousItem.required_skills > nextItem.required_skills)
+            return educationSort ? 1 : -1;
+          if (previousItem.required_skills < nextItem.required_skills)
+            return educationSort ? -1 : 1;
+        }
+        if (conditions.experience) {
+          if (previousItem.experience > nextItem.experience)
+            return experienceSort ? 1 : -1;
+          if (previousItem.experience < nextItem.experience)
+            return experienceSort ? -1 : 1;
+        }
+        return 0;
+      } catch (error) {
+        return 0;
+      }
+    });
+    sortedJob.items = sortedItems;
+    sortedJobs.push(sortedJob);
+  });
+
+  return sortedJobs;
+};
 export default async (req, res) => {
   let release;
   try {
-    // Use Mutex to handle synchronization of responses
-    release = await mutex.acquire();
+    if (req.method === 'POST') {
+      // Use Mutex to handle synchronization of responses
+      release = await mutex.acquire();
 
-    const { filter, sortBy, keyword } = req.query;
+      const { filter, sortBy, keyword } = JSON.parse(req.body || {});
 
-    // @todo: implement filters and search
-    let matchingJobs = findMatchingJobs({ filter, keyword });
-    matchingJobs = matchingJobs.sort();
-    // @todo: implement automated tests
+      let searchKeyword = '';
+      if (keyword) {
+        searchKeyword = keyword.toLowerCase();
+      }
+      // @todo: implement filters and search
+      let matchingJobs = findMatchingJobs({
+        filter,
+        keyword: searchKeyword,
+      });
+      matchingJobs = sortJobs(matchingJobs, sortBy);
+      // @todo: implement automated tests
 
-    // this timeout emulates unstable network connection, do not remove this one
-    // you need to figure out how to guarantee that client side will render
-    // correct results even if server-side can't finish replies in the right order
-    await new Promise((resolve) => setTimeout(resolve, 1000 * Math.random()));
+      // this timeout emulates unstable network connection, do not remove this one
+      // you need to figure out how to guarantee that client side will render
+      // correct results even if server-side can't finish replies in the right order
+      await new Promise((resolve) => setTimeout(resolve, 1000 * Math.random()));
 
-    return res.json(matchingJobs);
+      return res.json(matchingJobs);
+    }
+    return res.status(405).json({ message: 'method not allowed' });
   } catch (error) {
     return res.status(500).json({
-      message: `A server error occurred ${error.message}`,
+      message: `A server error occurred ${error.message} `,
     });
   } finally {
     if (release) {
