@@ -10,7 +10,7 @@ const SideBar = ({
   activeFilter,
 }) => {
   return (
-    <div className="flex flex-col">
+    <div className="md:flex md:flex-col hidden">
       {filters &&
         Object.keys(filters).map((filter) => {
           return (
