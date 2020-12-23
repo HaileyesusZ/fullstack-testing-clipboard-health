@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import Footer from './Footer';
 import MoreDepartmentsModal from './MoreDepartmentsModal';
 import NavBar from './NavBar';
 import SearchBar from './SearchBar';
@@ -50,6 +51,8 @@ const Layout = ({
           </div>
         </>
       )}
+
+      <Footer />
     </div>
   );
 };
