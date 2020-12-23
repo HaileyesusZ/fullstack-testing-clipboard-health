@@ -7,7 +7,7 @@ const NavBar = () => {
         <img className="inline-block mr-4 md:hidden w-8 h-8" src="/menu.svg" />
         <span>Health Explore</span>
       </div>
-      <div className="md:flex md:flex-grow sm:hidden hidden">
+      <div className="md:flex  sm:hidden hidden">
         <ul className="flex justify-center items-center space-x-16 font-medium text-md text-gray-900 uppercase">
           <li>
             <Link href="/">
